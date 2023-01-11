@@ -6,7 +6,7 @@
 #    By: mpotthar <mpotthar@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/03 12:29:47 by mpotthar          #+#    #+#              #
-#    Updated: 2023/01/04 12:11:17 by mpotthar         ###   ########.fr        #
+#    Updated: 2023/01/06 10:02:57 by mpotthar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,11 @@ ${SUBDIRS}:
 
 clean:
 	${RM} ${OBJS}
-	$(MAKE) clean -C libft
+	$(MAKE) clean -C ${SUBDIRS}
 
 fclean: clean
 	${RM} ${NAME}
-	$(MAKE) fclean -C libft
+	$(MAKE) fclean -C ${SUBDIRS}
 
 re: fclean all
 

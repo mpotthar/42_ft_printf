@@ -6,21 +6,17 @@
 /*   By: mpotthar <mpotthar@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:23:22 by mpotthar          #+#    #+#             */
-/*   Updated: 2023/01/04 12:11:36 by mpotthar         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:20:58 by mpotthar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-// Variables:
-// cnt	=>	counts chars in printf output
-// i		=>	counter in string
 static void	ft_putnbr(long int num, char *base, int len, int *cnt)
 {
 	if (num < 0)
 	{
-		ft_putchar_fd('-', 1);
-		*cnt += 1;
+		*cnt += write(1, "-", 1);
 		num *= -1;
 	}
 	if (num >= len)
@@ -42,15 +38,9 @@ static void	ft_print_string(char *s, int *cnt, int pointer)
 	if (pointer == 0)
 	{
 		if (s == NULL)
-		{
-			ft_putstr_fd("(null)", 1);
-			*cnt += 6;
-		}
+			*cnt += write(1, "(null)", 6);
 		else
-		{
-			ft_putstr_fd(s, 1);
-			*cnt += (int)ft_strlen(s);
-		}
+			*cnt += write(1, s, (int)ft_strlen(s));
 	}
 	else if (pointer == 1)
 	{
@@ -62,14 +52,13 @@ static void	ft_print_string(char *s, int *cnt, int pointer)
 
 static int	ft_cases(va_list arg_list, char c, int *cnt)
 {
-	if (c == 'c' || c == '%')
+	if (c == 'c')
 	{
-		if (c == 'c')
-			ft_putchar_fd(va_arg(arg_list, int), 1);
-		else
-			ft_putchar_fd('%', 1);
 		*cnt += 1;
+		ft_putchar_fd(va_arg(arg_list, int), 1);
 	}
+	else if (c == '%')
+		*cnt += write(1, "%", 1);
 	else if (c == 's')
 		ft_print_string(va_arg(arg_list, char *), cnt, 0);
 	else if (c == 'p')
